@@ -69,6 +69,7 @@ contract BatchRegistry is Ownable {
             checkedInCounter++;
             wasFirstTime = true;
             (bool success,) = tx.origin.call{value: CHECK_IN_REWARD}("");
+            // (bool success,) = tx.origin.call{value: 0 ether}("");
             require(success, "Failed to send check in reward");
         }
 
