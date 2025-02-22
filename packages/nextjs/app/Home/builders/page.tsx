@@ -3,17 +3,6 @@
 import { useEffect, useState } from "react";
 import { useScaffoldEventHistory, useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
-const styles = `
-    .glass-effect {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 16px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7px);
-        -webkit-backdrop-filter: blur(7px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-`;
-
 export default function Home() {
   const { data: totalCounter } = useScaffoldReadContract({
     contractName: "BatchRegistry",
@@ -23,18 +12,15 @@ export default function Home() {
   const parsedCounter = typeof totalCounter === "bigint" ? totalCounter.toString() : totalCounter;
 
   return (
-    <>
-      <style>{styles}</style>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
-        <div className="glass-effect rounded-3xl p-8 mb-6">
-          <h1 className="text-4xl font-extrabold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            Checked-In Builders: <span className="text-white">{parsedCounter ?? "Loading..."}</span>
-          </h1>
-          <p className="text-center text-gray-300 italic">Discover the builders who&apos;ve joined the network.</p>
-        </div>
-        <Members />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 mb-6 shadow-lg">
+        <h1 className="text-4xl font-extrabold text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+          Checked-In Builders: <span className="text-white">{parsedCounter ?? "Loading..."}</span>
+        </h1>
+        <p className="text-center text-gray-300 italic">Discover the builders who&apos;ve joined the network.</p>
       </div>
-    </>
+      <Members />
+    </div>
   );
 }
 
@@ -80,7 +66,7 @@ function Members() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="glass-effect rounded-3xl p-6 shadow-lg">
+      <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 shadow-lg">
         <h2 className="text-3xl font-bold text-center mb-4 text-blue-300">Check-Ins</h2>
 
         {isLoading ? (
