@@ -1,25 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTicTacToeState } from "./TicTacToeContext";
 import TicTacToeGame from "./TicTacToeGame";
-import { images, useGameState } from "./gameContext";
 import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
+import { images } from "~~/utils/scaffold-eth/batchMembersImages";
 
-// Interface for RenderImagesInPyramid props
-interface RenderImagesInPyramidProps {
-  pyramidLevels: string[][];
-  showTicTacToe: boolean;
-  setShowTicTacToe: (value: boolean) => void;
+function DetailsComponent(): JSX.Element {
+  return (
+    <div className="flex items-center flex-col flex-grow pt-10 bg-base-200 min-h-screen">
+      <h1 className="text-center text-5xl font-bold mb-12 text-[#D4A5A5] tracking-wide">Welcome to Batch 13</h1>
+
+      <TicTacToeGame />
+      <BatchProfilesPyramid />
+    </div>
+  );
 }
 
-// DetailsComponent function
-function DetailsComponent(): JSX.Element {
-  const { gameWon, setGameWon } = useGameState();
-  const [showTicTacToe, setShowTicTacToe] = useState<boolean>(false);
-
+function BatchProfilesPyramid(): JSX.Element {
   // Build pyramid levels
   const pyramidLevels: string[][] = [];
   const remainingImages: string[] = [...images];
@@ -29,39 +29,10 @@ function DetailsComponent(): JSX.Element {
     pyramidLevels.push(levelImages);
     level++;
   }
-
-  return (
-    <div className="flex items-center flex-col flex-grow pt-10 bg-base-200 min-h-screen">
-      <h1 className="text-center text-5xl font-bold mb-12 text-[#D4A5A5] tracking-wide">Welcome to Batch 13</h1>
-
-      {showTicTacToe && !gameWon && (
-        <TicTacToeGame
-          onWin={() => {
-            setGameWon(true);
-            setShowTicTacToe(false);
-          }}
-        />
-      )}
-
-      <RenderImagesInPyramid
-        pyramidLevels={pyramidLevels}
-        showTicTacToe={showTicTacToe}
-        setShowTicTacToe={setShowTicTacToe}
-      />
-    </div>
-  );
-}
-
-// RenderImagesInPyramid function
-function RenderImagesInPyramid({
-  pyramidLevels,
-  showTicTacToe,
-  setShowTicTacToe,
-}: RenderImagesInPyramidProps): JSX.Element {
-  const { activeImages, gameWon, setActiveImages } = useGameState();
+  const { activeImages, ticTacToeWon, showTicTacToe, setShowTicTacToe, setActiveImages } = useTicTacToeState();
 
   function toggleImage(index: number): void {
-    if (gameWon) {
+    if (ticTacToeWon) {
       const newActiveImages: boolean[] = [...activeImages];
       newActiveImages[index] = !newActiveImages[index];
       setActiveImages(newActiveImages);
@@ -99,7 +70,6 @@ function RenderImagesInPyramid({
   );
 }
 
-// MiscellaneousComponent function
 function MiscellaneousComponent(): JSX.Element {
   const { data: checkedInCount } = useScaffoldReadContract({
     contractName: "BatchRegistry",

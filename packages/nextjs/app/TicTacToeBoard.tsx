@@ -1,12 +1,13 @@
+import { useTicTacToeState } from "./TicTacToeContext";
 import TicTacToeSquare from "./TicTacToeSquare";
-import calculateWinner from "./helpers";
 
-interface BoardProps {
+interface TicTacToeBoardProps {
   squares: (string | null)[];
   onPlay: (nextSquares: (string | null)[]) => void;
 }
 
-function TicTacToeBoard({ squares, onPlay }: BoardProps): JSX.Element {
+function TicTacToeBoard({ squares, onPlay }: TicTacToeBoardProps): JSX.Element {
+  const { calculateWinner } = useTicTacToeState();
   function handleClick(i: number): void {
     if (squares[i] || calculateWinner(squares)) {
       return;
