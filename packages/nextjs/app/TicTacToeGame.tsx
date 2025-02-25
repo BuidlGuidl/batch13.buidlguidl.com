@@ -1,8 +1,11 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import TicTacToeBoard from "./TicTacToeBoard";
 import calculateWinner from "./helpers";
 
 type GameStatus = "playing" | "userWon" | "opponentWon" | "draw";
+
 function TicTacToeGame({ onWin }: { onWin: () => void }): JSX.Element {
   const [history, setHistory] = useState<(string | null)[][]>([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState<number>(0);
@@ -12,8 +15,8 @@ function TicTacToeGame({ onWin }: { onWin: () => void }): JSX.Element {
   const currentSquares: (string | null)[] = history[currentMove];
 
   function handlePlay(nextSquares: (string | null)[]): void {
-    setHistory(prevHistory => [...prevHistory.slice(0, currentMove + 1), nextSquares]);
-    setCurrentMove(prevMove => prevMove + 1);
+    setHistory((prevHistory) => [...prevHistory.slice(0, currentMove + 1), nextSquares]);
+    setCurrentMove((prevMove) => prevMove + 1);
   }
 
   function restartGame(): void {
@@ -29,11 +32,11 @@ function TicTacToeGame({ onWin }: { onWin: () => void }): JSX.Element {
         onWin();
       } else if (winner === "O") {
         setGameStatus("opponentWon");
-      } else if (currentSquares.every(square => square !== null)) {
+      } else if (currentSquares.every((square) => square !== null)) {
         setGameStatus("draw");
       }
     }
-    
+
     function makeOpponentMove(): void {
       const emptyIndices = currentSquares
         .map((val, idx) => (val === null ? idx : null))
@@ -42,15 +45,16 @@ function TicTacToeGame({ onWin }: { onWin: () => void }): JSX.Element {
       if (emptyIndices.length > 0) {
         const randomMove = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
         setTimeout(() => {
-          setHistory(prevHistory => {
+          setHistory((prevHistory) => {
             const latestSquares = [...prevHistory[prevHistory.length - 1]];
             latestSquares[randomMove] = "O";
             return [...prevHistory, latestSquares];
-        });
-          setCurrentMove(prevMove => prevMove + 1);
+          });
+          setCurrentMove((prevMove) => prevMove + 1);
         }, 500);
       }
     }
+
     const winner = calculateWinner(currentSquares);
     handleGameOutcome(winner);
 
