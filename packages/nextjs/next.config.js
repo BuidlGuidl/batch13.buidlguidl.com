@@ -14,6 +14,18 @@ const nextConfig = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
+  images:{
+    remotePatterns:[
+      {
+        protocol: "https",
+        hostname: "i.pinimg.com"
+      },
+      {
+        protocol: "https",
+        hostname: "emerald-many-salmon-332.mypinata.cloud"
+      }
+    ]
+  }
 };
 
 module.exports = nextConfig;
