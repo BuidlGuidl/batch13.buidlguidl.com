@@ -4,7 +4,9 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { BatchStatusIcon } from "./BatchStatusIcon";
 import { hardhat } from "viem/chains";
+import { useAccount } from "wagmi";
 import { Bars3Icon, BugAntIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
@@ -58,6 +60,7 @@ export const HeaderMenuLinks = () => {
  */
 export const Header = () => {
   const { targetNetwork } = useTargetNetwork();
+  const { address } = useAccount();
   const isLocalNetwork = targetNetwork.id === hardhat.id;
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -94,20 +97,27 @@ export const Header = () => {
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
           <div className="flex relative w-10 h-10">
-            <Image alt="SE2 logo" className="cursor-pointer" fill src="/logo.svg" />
+            <Image
+              alt="Scaffold ETH 2 - Batch 13 (DALL·E generated image)"
+              className="cursor-pointer"
+              fill
+              src="/logo.webp"
+              sizes="max-width:40px;"
+            />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold leading-tight">Scaffold-ETH</span>
-            <span className="text-xs">Ethereum dev stack</span>
+            <span className="font-bold leading-tight">Batch #13</span>
+            <span className="text-xs">🚀 Scaffold ETH 2 - Batch 13: Build, test, deploy faster! ⚡</span>
           </div>
         </Link>
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />
         </ul>
       </div>
-      <div className="navbar-end flex-grow mr-4">
+      <div className="navbar-end flex-grow mr-4 gap-1">
         <RainbowKitCustomConnectButton />
         {isLocalNetwork && <FaucetButton />}
+        {address && <BatchStatusIcon userAddress={address} />}
       </div>
     </div>
   );

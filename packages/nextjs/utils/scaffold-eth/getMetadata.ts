@@ -9,10 +9,12 @@ export const getMetadata = ({
   title,
   description,
   imageRelativePath = "/thumbnail.jpg",
+  icons,
 }: {
   title: string;
   description: string;
   imageRelativePath?: string;
+  icons?: Metadata["icons"];
 }): Metadata => {
   const imageUrl = `${baseUrl}${imageRelativePath}`;
 
@@ -43,8 +45,6 @@ export const getMetadata = ({
       description: description,
       images: [imageUrl],
     },
-    icons: {
-      icon: [{ url: "/favicon.png", sizes: "32x32", type: "image/png" }],
-    },
+    icons: icons,
   };
 };
