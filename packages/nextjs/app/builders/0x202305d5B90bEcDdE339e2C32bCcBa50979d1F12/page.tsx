@@ -5,6 +5,8 @@ import { FaGithub, FaTelegram } from "react-icons/fa";
 import { Address } from "~~/components/scaffold-eth";
 
 const DopeBuilderPage: NextPage = () => {
+  const location = "Lagos, Nigeria";
+  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
@@ -37,9 +39,16 @@ const DopeBuilderPage: NextPage = () => {
         <div className="p-6">
           {/* Bio */}
           <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
-            <p className="text-gray-700 dark:text-gray-300">
-              Full-stack software developer. Passionate about web3 development and contributing to open-source!
-            </p>
+            <div className="space-y-3">
+              <p className="text-gray-700 dark:text-gray-300">
+                Full-stack software developer with years of experience. Passionate about web3 development and
+                contributing to open-source projects!
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
+                Specializing in React, Node.js, and Solidity. Currently building DeFi applications and exploring
+                zero-knowledge proofs. Contributor to <span className="font-medium">Ethereum</span> ecosystems.
+              </p>
+            </div>
           </div>
 
           {/* Contact Info */}
@@ -49,13 +58,20 @@ const DopeBuilderPage: NextPage = () => {
             <div className="space-y-3">
               <address className="not-italic">
                 <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                  <CiLocationOn />
-                  <span>Lagos, Nigeria</span>
+                  <a
+                    href={googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
+                  >
+                    <CiLocationOn />
+                    <span>{location}</span>
+                  </a>
                 </div>
 
                 <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
                   <CiMail />
-                  <a href="0xDopezee" className="hover:text-blue-500 transition-colors">
+                  <a href="mailto:0xDopezee@gmail.com" className="hover:text-blue-500 transition-colors">
                     0xDopezee@gmail.com
                   </a>
                 </div>
