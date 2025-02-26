@@ -14,6 +14,8 @@ interface TicTacToeState {
   setTicTacToeWon: (won: boolean) => void;
   setShowTicTacToe: (show: boolean) => void;
   showTicTacToe: boolean;
+  showTicTacToeModal: boolean;
+  setShowTicTacToeModal: (show: boolean) => void;
   calculateWinner: (squares: (string | null)[]) => string | null;
 }
 
@@ -26,6 +28,7 @@ function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
   const [activeImages, setActiveImages] = useState<boolean[]>(Array(images.length).fill(false));
   const [ticTacToeStatus, setTicTacToeStatus] = useState<TicTacToeStatus>("playing");
   const [showTicTacToe, setShowTicTacToe] = useState<boolean>(false);
+  const [showTicTacToeModal, setShowTicTacToeModal] = useState<boolean>(true);
 
   useEffect(() => {
     const storedTicTacToeWon = localStorage.getItem("ticTacToeWon");
@@ -110,6 +113,8 @@ function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
         setShowTicTacToe,
         showTicTacToe,
         calculateWinner,
+        showTicTacToeModal,
+        setShowTicTacToeModal,
       }}
     >
       {children}

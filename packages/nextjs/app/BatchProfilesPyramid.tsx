@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useTicTacToeState } from "./TicTacToeContext";
-import { images } from "~~/utils/scaffold-eth/batchMembersImages";
+import { randomImages as images } from "~~/utils/scaffold-eth/batchMembersImages";
 
 function BatchProfilesPyramid(): JSX.Element {
   // Build pyramid levels
@@ -12,7 +12,8 @@ function BatchProfilesPyramid(): JSX.Element {
     pyramidLevels.push(levelImages);
     level++;
   }
-  const { activeImages, ticTacToeWon, showTicTacToe, setShowTicTacToe, setActiveImages } = useTicTacToeState();
+  const { activeImages, ticTacToeWon, showTicTacToe, setShowTicTacToe, setActiveImages, setShowTicTacToeModal } =
+    useTicTacToeState();
 
   function toggleImage(index: number): void {
     if (ticTacToeWon) {
@@ -21,6 +22,7 @@ function BatchProfilesPyramid(): JSX.Element {
       setActiveImages(newActiveImages);
     } else if (!showTicTacToe) {
       setShowTicTacToe(true);
+      setShowTicTacToeModal(true);
     }
   }
 

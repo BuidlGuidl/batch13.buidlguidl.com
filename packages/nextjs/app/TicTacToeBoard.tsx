@@ -18,11 +18,13 @@ function TicTacToeBoard({ squares, onPlay }: TicTacToeBoardProps): JSX.Element {
   }
 
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {squares.map((square, i) => (
-        <TicTacToeSquare key={i} value={square} onSquareClick={() => handleClick(i)} />
-      ))}
-    </div>
+    <>
+      <div className="grid grid-cols-3 gap-3">
+        {squares.map((square, i) => (
+          <TicTacToeSquare key={i} value={square} onSquareClick={() => handleClick(i)} />
+        ))}
+      </div>
+    </>
   );
 }
 

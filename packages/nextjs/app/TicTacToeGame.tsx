@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import TicTacToeBoard from "./TicTacToeBoard";
 import { useTicTacToeState } from "./TicTacToeContext";
+import { FaTimes } from "react-icons/fa";
 
 function TicTacToeGame(): JSX.Element {
   const [history, setHistory] = useState<(string | null)[][]>([Array(9).fill(null)]);
@@ -15,6 +16,8 @@ function TicTacToeGame(): JSX.Element {
     ticTacToeStatus,
     setShowTicTacToe,
     showTicTacToe,
+    showTicTacToeModal,
+    setShowTicTacToeModal,
   } = useTicTacToeState();
 
   const xIsNext: boolean = currentMove % 2 === 0;
@@ -37,6 +40,7 @@ function TicTacToeGame(): JSX.Element {
         setTicTacToeStatus("userWon");
         setTicTacToeWon(true);
         setShowTicTacToe(false);
+        setShowTicTacToeModal(false);
       } else if (winner === "O") {
         setTicTacToeStatus("opponentWon");
       } else if (currentSquares.every(square => square !== null)) {
@@ -77,13 +81,22 @@ function TicTacToeGame(): JSX.Element {
     calculateWinner,
     setShowTicTacToe,
     setTicTacToeStatus,
+    setShowTicTacToeModal,
   ]);
+
+  function handleDismissModal(): void {
+    setShowTicTacToeModal(false);
+    setShowTicTacToe(false);
+  }
 
   return (
     <>
-      {showTicTacToe && !ticTacToeWon ? (
+      {showTicTacToe && !ticTacToeWon && showTicTacToeModal ? (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center z-50">
           <div className="bg-[#F5F5F5] p-8 rounded-3xl shadow-lg border border-[#D4A5A5]/30 relative">
+            <div className="flex items-end w-[100%] justify-end">
+              <FaTimes size={30} onClick={handleDismissModal} fill="gray" />
+            </div>
             <h2 className="text-2xl font-bold text-center mb-4 text-[#D4A5A5]">Play to Unlock Image</h2>
             <TicTacToeBoard squares={currentSquares} onPlay={handlePlay} />
             {(ticTacToeStatus === "opponentWon" || ticTacToeStatus === "draw") && (
@@ -101,6 +114,8 @@ function TicTacToeGame(): JSX.Element {
             )}
           </div>
         </div>
+      ) : showTicTacToe && !ticTacToeWon && !showTicTacToeModal ? (
+        ""
       ) : (
         ""
       )}
