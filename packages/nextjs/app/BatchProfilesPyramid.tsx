@@ -1,19 +1,26 @@
 import Image from "next/image";
 import { useTicTacToeState } from "./TicTacToeContext";
-import { randomImages as images } from "~~/utils/scaffold-eth/batchMembersImages";
 
 function BatchProfilesPyramid(): JSX.Element {
+  const {
+    activeImages,
+    ticTacToeWon,
+    showTicTacToe,
+    setShowTicTacToe,
+    setActiveImages,
+    setShowTicTacToeModal,
+    reshuffledImages,
+  } = useTicTacToeState();
+
   // Build pyramid levels
   const pyramidLevels: string[][] = [];
-  const remainingImages: string[] = [...images];
+  const remainingImages: string[] = [...reshuffledImages];
   let level: number = 1;
   while (remainingImages.length > 0) {
     const levelImages: string[] = remainingImages.splice(0, level);
     pyramidLevels.push(levelImages);
     level++;
   }
-  const { activeImages, ticTacToeWon, showTicTacToe, setShowTicTacToe, setActiveImages, setShowTicTacToeModal } =
-    useTicTacToeState();
 
   function toggleImage(index: number): void {
     if (ticTacToeWon) {
@@ -31,7 +38,7 @@ function BatchProfilesPyramid(): JSX.Element {
       {pyramidLevels.map((levelImages: string[], levelIndex: number) => (
         <div key={levelIndex} className="flex justify-center items-center mb-16 relative">
           {levelImages.map((img: string, i: number) => {
-            const globalIndex: number = images.indexOf(img);
+            const globalIndex: number = reshuffledImages.indexOf(img);
             const isActive: boolean = activeImages[globalIndex];
             return (
               <div key={img + i} className="relative mx-4">

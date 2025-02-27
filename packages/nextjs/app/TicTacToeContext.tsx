@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { images } from "~~/utils/scaffold-eth/batchMembersImages";
+import { images, shuffleArray } from "~~/utils/scaffold-eth/batchMembersImages";
 
 type TicTacToeStatus = "playing" | "userWon" | "opponentWon" | "draw";
 
@@ -17,15 +17,15 @@ interface TicTacToeState {
   showTicTacToeModal: boolean;
   setShowTicTacToeModal: (show: boolean) => void;
   calculateWinner: (squares: (string | null)[]) => string | null;
+  reshuffledImages: string[];
 }
 
-// Create the context with an undefined initial value
 const TicTacToeContext = createContext<TicTacToeState | undefined>(undefined);
 
-// Provider component
 function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
   const [ticTacToeWon, setTicTacToeWon] = useState<boolean>(false);
   const [activeImages, setActiveImages] = useState<boolean[]>(Array(images.length).fill(false));
+  const [reshuffledImages, setReshuffledImages] = useState<string[]>(() => shuffleArray(images));
   const [ticTacToeStatus, setTicTacToeStatus] = useState<TicTacToeStatus>("playing");
   const [showTicTacToe, setShowTicTacToe] = useState<boolean>(false);
   const [showTicTacToeModal, setShowTicTacToeModal] = useState<boolean>(true);
@@ -81,6 +81,10 @@ function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
     };
   }, []);
 
+  useEffect(() => {
+    setReshuffledImages(shuffleArray(images));
+  }, []);
+
   function calculateWinner(squares: (string | null)[]): string | null {
     const lines: number[][] = [
       [0, 1, 2],
@@ -115,6 +119,7 @@ function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
         calculateWinner,
         showTicTacToeModal,
         setShowTicTacToeModal,
+        reshuffledImages,
       }}
     >
       {children}
@@ -122,7 +127,6 @@ function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
   );
 }
 
-// Custom hook to use the context
 function useTicTacToeState(): TicTacToeState {
   const context = useContext(TicTacToeContext);
   if (!context) {
