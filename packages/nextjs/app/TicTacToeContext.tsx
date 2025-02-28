@@ -25,7 +25,7 @@ const TicTacToeContext = createContext<TicTacToeState | undefined>(undefined);
 function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
   const [ticTacToeWon, setTicTacToeWon] = useState<boolean>(false);
   const [activeImages, setActiveImages] = useState<boolean[]>(Array(images.length).fill(false));
-  const [reshuffledImages, setReshuffledImages] = useState<string[]>(() => shuffleArray(images));
+  const [reshuffledImages, setReshuffledImages] = useState<string[]>([]);
   const [ticTacToeStatus, setTicTacToeStatus] = useState<TicTacToeStatus>("playing");
   const [showTicTacToe, setShowTicTacToe] = useState<boolean>(false);
   const [showTicTacToeModal, setShowTicTacToeModal] = useState<boolean>(true);
@@ -82,7 +82,7 @@ function TicTacToeProvider({ children }: { children: ReactNode }): JSX.Element {
   }, []);
 
   useEffect(() => {
-    setReshuffledImages(shuffleArray(images));
+    setReshuffledImages(() => shuffleArray(images));
   }, []);
 
   function calculateWinner(squares: (string | null)[]): string | null {
