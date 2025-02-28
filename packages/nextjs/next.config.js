@@ -9,22 +9,23 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
-  images: {
-    domains: ["emerald-many-salmon-332.mypinata.cloud"],
-  },
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;
   },
-  images: {
-    remotePatterns: [
+  images:{
+    remotePatterns:[
       {
         protocol: "https",
-        hostname: "i.pinimg.com", 
+        hostname: "i.pinimg.com"
       },
-    ],
-  },
+      {
+        protocol: "https",
+        hostname: "emerald-many-salmon-332.mypinata.cloud"
+      }
+    ]
+  }
 };
 
 module.exports = nextConfig;
